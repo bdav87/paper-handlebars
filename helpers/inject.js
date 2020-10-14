@@ -13,9 +13,9 @@ const factory = globals => {
                 result = filterObjectValues(value);
             }
             if (Array.isArray(value)) {
-                result = arr.map(item => {
+                result = value.map(item => {
                     return filterValues(item);
-                })
+                });
             }
         }
         return result;

@@ -30,7 +30,7 @@ const factory = globals => {
                 return;
             }
             if (Array.isArray(obj[key])) {
-                filteredObject[key] = filterArrayValues(value);
+                filteredObject[key] = filterArrayValues(obj[key]);
                 return;
             }
             filteredObject[key] = obj[key];

@@ -9,8 +9,11 @@ const factory = globals => {
             if (typeof value === 'string') {
                 result = globals.handlebars.escapeExpression(value);
             }
-            if (typeof value === 'object' && value !== null) {
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                 result = filterObjectValues(value);
+            }
+            if (Array.isArray(value)) {
+                result = filterArrayValues(value);
             }
         }
         return result;
@@ -22,14 +25,23 @@ const factory = globals => {
                 filteredObject[key] = globals.handlebars.escapeExpression(obj[key]);
                 return;
             }
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
+            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
                 filteredObject[key] = filterObjectValues(obj[key]);
+                return;
+            }
+            if (Array.isArray(obj[key])) {
+                filteredObject[key] = filterArrayValues(value);
                 return;
             }
             filteredObject[key] = obj[key];
             
         });
         return filteredObject;
+    }
+    function filterArrayValues(arr) {
+        return arr.map(item => {
+            return filterValues(item);
+        })
     }
 
     return function(key, value) {

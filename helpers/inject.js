@@ -25,9 +25,9 @@ const factory = globals => {
             if (typeof obj[key] === 'object' && obj[key] !== null) {
                 filteredObject[key] = filterObjectValues(obj[key]);
                 return;
-            } else {
-                filteredObject[key] = obj[key];
             }
+            filteredObject[key] = obj[key];
+            
         });
         return filteredObject;
     }

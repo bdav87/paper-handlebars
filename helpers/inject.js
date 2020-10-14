@@ -13,7 +13,9 @@ const factory = globals => {
                 result = filterObjectValues(value);
             }
             if (Array.isArray(value)) {
-                result = filterArrayValues(value);
+                result = arr.map(item => {
+                    return filterValues(item);
+                })
             }
         }
         return result;
@@ -21,27 +23,9 @@ const factory = globals => {
     function filterObjectValues(obj) {
         let filteredObject = {};
         Object.keys(obj).forEach(key => {
-            if (typeof obj[key] === 'string') {
-                filteredObject[key] = globals.handlebars.escapeExpression(obj[key]);
-                return;
-            }
-            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-                filteredObject[key] = filterObjectValues(obj[key]);
-                return;
-            }
-            if (Array.isArray(obj[key])) {
-                filteredObject[key] = filterArrayValues(obj[key]);
-                return;
-            }
-            filteredObject[key] = obj[key];
-            
+            filteredObject[key] = filterValues(obj[key]);
         });
         return filteredObject;
-    }
-    function filterArrayValues(arr) {
-        return arr.map(item => {
-            return filterValues(item);
-        })
     }
 
     return function(key, value) {
